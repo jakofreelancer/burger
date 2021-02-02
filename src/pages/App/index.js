@@ -1,5 +1,5 @@
 import React from "react";
-import './style.css';
+import style from "./style.module.css";
 import Toolbar from "../../components/Toolbar";
 import BurgerBuilder from "../BurgerBuilder";
 
@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <Toolbar />
-      <main className="Content">
+      <main className={style.Content}>
         <BurgerBuilder />
       </main>
     </div>
