@@ -4,9 +4,9 @@ import css from "./style.module.css";
 
 const Burger = props => {
     //{bacon: 2, cheese: 2, meat: 1, salad: 1}
-    console.log(props.ingredients);
+    //console.log(props.ingredients);
     const items = Object.entries(props.ingredients);
-    console.log(items);
+    //console.log(items);
     
     let content = [];
     items.map(el => {
