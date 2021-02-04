@@ -5,11 +5,14 @@ import Menu from "../Menu";
 import MenuItem from "../MenuItem";
 import Shadow from "../General/Shadow";
 
-const SideBar = () => {
+const SideBar = (props) => {
+
+    let classes = [css.SideBar, css.Open];
+
     return (
         <div>
-            <Shadow show />
-            <div className={css.SideBar}>
+            <Shadow show={props.showSidebar} />
+            <div className={ classes.join(" ") }>
                 <div className={css.Logo}>
                     <Logo />
                     <Menu />
