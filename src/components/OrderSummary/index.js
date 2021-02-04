@@ -7,7 +7,7 @@ const OrderSummary = (props) => {
             <p>Таны сонгосон орцууд: </p>
             <ul>
                 {Object.keys(props.ingredients).map(el => (
-                    <li>{props.ingredientNames[el]}: {props.ingredients[el]}</li>
+                    <li key={el}>{props.ingredientNames[el]}: {props.ingredients[el]}</li>
                 ))}
             </ul>
             <p>Цаашаа үргэлжлүүлэх үү?</p>
