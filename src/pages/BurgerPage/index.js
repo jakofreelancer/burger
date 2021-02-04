@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./style.css";
 import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
+import Modal from "../../components/General/Modal";
 
 //unenuud uurchlugduh shaardlaga app.d bhgui uchraas dotood state.d bish classiin gadna zarlay
 const INGREDIENT_PRICES = { salad: 150, cheese: 250, bacon: 800, meat: 1500 };
@@ -49,6 +50,10 @@ class BurgerBuilder extends Component {
 
         return (
             <div>
+                <Modal>
+                    <h1>Та итгэлтэй байна уу?</h1>
+                    <p>Захиалгын дэлгэрэнгүй</p>
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls 
                     disabled={!this.state.purchasing}
