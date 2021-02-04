@@ -1,0 +1,9 @@
+.Menu {
+  list-style: none;
+  display: flex;
+  flex-flow: row;
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  align-items: center;
+}
