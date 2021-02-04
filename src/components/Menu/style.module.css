@@ -1,6 +1,6 @@
 .Menu {
   list-style: none;
-  display: flex;
+  display: block;
   flex-flow: row;
   margin: 0px;
   padding: 0px;

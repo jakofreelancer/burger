@@ -1,0 +1,13 @@
+.SideBar {
+  width: 280px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 200;
+  padding: 32px 16px;
+}
+.Logo {
+  height: 15%;
+}
