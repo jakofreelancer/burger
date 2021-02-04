@@ -10,6 +10,7 @@ const OrderSummary = (props) => {
                     <li key={el}>{props.ingredientNames[el]}: {props.ingredients[el]}</li>
                 ))}
             </ul>
+            <p><strong>Захиалгын дүн: {props.price}₮</strong></p>
             <p>Цаашаа үргэлжлүүлэх үү?</p>
         </div>
     );
