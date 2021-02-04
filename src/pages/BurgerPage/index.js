@@ -36,6 +36,10 @@ class BurgerBuilder extends Component {
         this.setState({ confirmOrder: false });
     };
 
+    continueOrder = () => {
+        console.log("BurgerOrder continueBtn pressed");
+    };
+
     addIngredient = type => {
         const newIngredients = { ...this.state.ingredients };
         newIngredients[type]++;
@@ -68,6 +72,8 @@ class BurgerBuilder extends Component {
             <div>
                 <Modal closeOrderConfirmModal={this.closeOrderConfirmModal} show={this.state.confirmOrder}>
                     <OrderSummary 
+                        onCancel={this.closeOrderConfirmModal}
+                        onContinue={this.continueOrder}
                         price={this.state.totalPrice}
                         ingredientNames={INGREDIENT_NAMES}
                         ingredients={this.state.ingredients} />
