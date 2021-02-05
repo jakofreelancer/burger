@@ -4,6 +4,7 @@ import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
 import Modal from "../../components/General/Modal";
 import OrderSummary from "../../components/OrderSummary";
+import axios from "../../axios-orders";
 
 //unenuud uurchlugduh shaardlaga app.d bhgui uchraas dotood state.d bish classiin gadna zarlay
 const INGREDIENT_PRICES = { salad: 150, cheese: 250, bacon: 800, meat: 1500 };
@@ -37,7 +38,20 @@ class BurgerBuilder extends Component {
     };
 
     continueOrder = () => {
-        console.log("BurgerOrder continueBtn pressed");
+        const order = {
+            ingredient: this.state.ingredients,
+            price: this.state.totalPrice,
+            address: {
+                name: "Javkhlan",
+                city: "UB",
+                street: "Olymp khotkhon 421-22"
+            }
+        };
+        axios
+            .post("/orders.json", order)
+            .then(response => {
+                alert("Successful connected!!!");
+            });
     };
 
     addIngredient = type => {
