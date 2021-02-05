@@ -11,7 +11,7 @@ class App extends Component {
 
   toggleSideBar = () => {
     this.setState(prevState => {
-      return {showSidebar: !prevState.showSidebar}
+      return {showSidebar: !prevState.showSidebar};
     });
   };
 
