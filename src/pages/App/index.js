@@ -3,6 +3,7 @@ import style from "./style.module.css";
 import Toolbar from "../../components/Toolbar";
 import BurgerPage from "../BurgerPage";
 import SideBar from "../../components/Sidebar";
+import OrderPage from "../OrderPage";
 
 class App extends Component {
   state = {
@@ -21,7 +22,8 @@ class App extends Component {
         <Toolbar toggleSideBar={this.toggleSideBar} />
         <SideBar showSidebar={this.state.showSidebar} toggleSideBar={this.toggleSideBar} />
         <main className={style.Content}>
-          <BurgerPage />
+          {/*<BurgerPage />*/}
+          <OrderPage />
         </main>
       </div>
     );
