@@ -23,7 +23,7 @@ class OrderPage extends React.Component {
     }
 
     render() {
-        console.log(this.state.orders);
+        // console.log(this.state.orders);
         return (
             <div>
                 {this.state.loading ? ( <Spinner /> ) : ( this.state.orders.map(el => <Order key={el[0]} order={el[1]} />)) }

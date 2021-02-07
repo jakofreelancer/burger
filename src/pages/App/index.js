@@ -4,6 +4,7 @@ import Toolbar from "../../components/Toolbar";
 import BurgerPage from "../BurgerPage";
 import SideBar from "../../components/Sidebar";
 import OrderPage from "../OrderPage";
+import { Route, Switch } from "react-router-dom";
 
 class App extends Component {
   state = {
@@ -22,8 +23,10 @@ class App extends Component {
         <Toolbar toggleSideBar={this.toggleSideBar} />
         <SideBar showSidebar={this.state.showSidebar} toggleSideBar={this.toggleSideBar} />
         <main className={style.Content}>
-          {/*<BurgerPage />*/}
-          <OrderPage />
+          <Switch>
+            <Route path="/orders" component={OrderPage} />
+            <Route path="/" component={BurgerPage} />
+          </Switch>
         </main>
       </div>
     );

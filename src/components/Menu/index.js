@@ -4,8 +4,8 @@ import MenuItem from "../MenuItem";
 
 const Menu = () => (<div>
     <ul className={css.Menu}>
-        <MenuItem active link="/">ЗАХИАЛАХ</MenuItem>
-        <MenuItem link="/login">НЭВТРЭХ</MenuItem>
+        <MenuItem exact link="/">ЗАХИАЛАХ</MenuItem>
+        <MenuItem link="/orders">ЗАХИАЛГАНУУД</MenuItem>
     </ul>
 </div>);
 
