@@ -42,23 +42,40 @@ class BurgerBuilder extends Component {
     };
 
     continueOrder = () => {
-        const order = {
-            ingredient: this.state.ingredients,
-            price: this.state.totalPrice,
-            address: {
-                name: "Javkhlan",
-                city: "UB",
-                street: "Olymp khotkhon 421-22"
-            }
-        };
+        // const order = {
+        //     ingredient: this.state.ingredients,
+        //     price: this.state.totalPrice,
+        //     address: {
+        //         name: "Javkhlan",
+        //         city: "UB",
+        //         street: "Olymp khotkhon 421-22"
+        //     }
+        // };
 
-        this.setState({loading: true});
-        axios
-            .post("/orders.json", order)
-            .then(response => {})
-            .finally(() => {
-                this.setState({loading: false});
-            });
+        // this.setState({loading: true});
+        // axios
+        //     .post("/orders.json", order)
+        //     .then(response => {})
+        //     .finally(() => {
+        //         this.setState({loading: false});
+        //     });
+        const params = [];
+
+        for(let ingredient in this.state.ingredients) {
+            console.log(ingredient + "=" + this.state.ingredients[ingredient]);
+            params.push(ingredient + "=" + this.state.ingredients[ingredient]);
+        }
+
+        const query = params.join("&");
+        console.log(query);
+
+        //this.props.history.push("/shipping");
+        this.props.history.push({
+            pathname: "/shipping",
+            search: query
+        });
+
+        this.closeOrderConfirmModal(); 
     };
 
     addIngredient = type => {

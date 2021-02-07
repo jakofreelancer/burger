@@ -4,6 +4,7 @@ import Toolbar from "../../components/Toolbar";
 import BurgerPage from "../BurgerPage";
 import SideBar from "../../components/Sidebar";
 import OrderPage from "../OrderPage";
+import { ShippingPage } from "../ShippingPage";
 import { Route, Switch } from "react-router-dom";
 
 class App extends Component {
@@ -25,6 +26,7 @@ class App extends Component {
         <main className={style.Content}>
           <Switch>
             <Route path="/orders" component={OrderPage} />
+            <Route path="/shipping" component={ShippingPage} />
             <Route path="/" component={BurgerPage} />
           </Switch>
         </main>
