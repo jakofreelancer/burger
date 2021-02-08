@@ -4,7 +4,7 @@ import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
 import Modal from "../../components/General/Modal";
 import OrderSummary from "../../components/OrderSummary";
-import axios from "../../axios-orders";
+//import axios from "../../axios-orders";
 import Spinner from "../../components/General/Spinner";
 
 //unenuud uurchlugduh shaardlaga app.d bhgui uchraas dotood state.d bish classiin gadna zarlay
@@ -16,7 +16,7 @@ const INGREDIENT_NAMES = {
     salad: "Салад"
 };
 
-class BurgerBuilder extends Component {
+class BurgerPage extends Component {
     state = {
         ingredients: {
             salad: 0,
@@ -120,7 +120,7 @@ class BurgerBuilder extends Component {
                         />
                     )}
                 </Modal>
-                <Burger ingredients={this.state.ingredients} />
+                <Burger chooseFavorite={this.props.chooseFavorite} ingredients={this.state.ingredients} />
                 <BuildControls 
                     showOrderConfirmModal={this.showOrderConfirmModal}
                     ingredientNames={INGREDIENT_NAMES}
@@ -135,4 +135,4 @@ class BurgerBuilder extends Component {
     }
 }
 
-export default BurgerBuilder
+export default BurgerPage;
