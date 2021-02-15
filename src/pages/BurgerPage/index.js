@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./style.css";
 import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
 import Modal from "../../components/General/Modal";
 import OrderSummary from "../../components/OrderSummary";
-//import axios from "../../axios-orders";
 import Spinner from "../../components/General/Spinner";
+import * as actions from "../../redux/actions/burgerActions";
 
 //unenuud uurchlugduh shaardlaga app.d bhgui uchraas dotood state.d bish classiin gadna zarlay
 const INGREDIENT_PRICES = { salad: 150, cheese: 250, bacon: 800, meat: 1500 };
@@ -18,14 +19,6 @@ const INGREDIENT_NAMES = {
 
 class BurgerPage extends Component {
     state = {
-        ingredients: {
-            salad: 0,
-            cheese: 0,
-            bacon: 0,
-            meat: 0
-        },
-
-        totalPrice: 1000,
         purchasing: false,
         confirmOrder: false
     };
@@ -43,8 +36,8 @@ class BurgerPage extends Component {
 
     continueOrder = () => {
         // const order = {
-        //     ingredient: this.state.ingredients,
-        //     price: this.state.totalPrice,
+        //     ingredient: this.props.burgerIngredient,
+        //     price: this.props.totalPrice,
         //     address: {
         //         name: "Javkhlan",
         //         city: "UB",
@@ -61,12 +54,15 @@ class BurgerPage extends Component {
         //     });
         const params = [];
 
-        for(let ingredient in this.state.ingredients) {
-            //console.log(ingredient + "=" + this.state.ingredients[ingredient]);
-            params.push(ingredient + "=" + this.state.ingredients[ingredient]);
+        console.log("params first state: ");
+        console.log(this.props);
+
+        for(let ingredient in this.props.burgerIngredient) {
+            //console.log(ingredient + "=" + this.props.burgerIngredient[ingredient]);
+            params.push(ingredient + "=" + this.props.burgerIngredient[ingredient]);
         }
 
-        params.push("price=" + this.state.totalPrice);
+        params.push("price=" + this.props.totalPrice);
 
         //this.props.history.push("/shipping");
         this.props.history.push({
@@ -78,32 +74,36 @@ class BurgerPage extends Component {
     };
 
     addIngredient = type => {
-        const newIngredients = { ...this.state.ingredients };
+        const newIngredients = { ...this.props.burgerIngredient };
         newIngredients[type]++;
 
-        const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
+        const newPrice = this.props.totalPrice + INGREDIENT_PRICES[type];
 
         this.setState({ purchasing: true, totalPrice: newPrice, ingredients: newIngredients });
     };
 
     removeIngredient = type => {
-        if(this.state.ingredients[type] > 0) {
-            const newIngredients = { ...this.state.ingredients };
+        if(this.props.burgerIngredient[type] > 0) {
+            const newIngredients = { ...this.props.burgerIngredient };
             newIngredients[type]--;
 
-            const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
+            const newPrice = this.props.totalPrice - INGREDIENT_PRICES[type];
 
             this.setState({ purchasing: newPrice > 1000, totalPrice: newPrice, ingredients: newIngredients });
         }
         
     };
-    
+
     render () {
-        const disabledIngredients = { ...this.state.ingredients };
+        console.log("render deerh props ni: ");
+        console.log(this.props);
+        const disabledIngredients = { ...this.props.burgerIngredient };
 
         for(let key in disabledIngredients) {
             disabledIngredients[key] = disabledIngredients[key] <= 0;
         }
+
+        console.log("heyyyyy", this.props);
 
         return (
             <div>
@@ -114,25 +114,40 @@ class BurgerPage extends Component {
                         <OrderSummary 
                             onCancel={this.closeOrderConfirmModal}
                             onContinue={this.continueOrder}
-                            price={this.state.totalPrice}
+                            price={this.props.totalPrice}
                             ingredientNames={INGREDIENT_NAMES}
-                            ingredients={this.state.ingredients} 
+                            ingredients={this.props.burgerIngredient} 
                         />
                     )}
                 </Modal>
-                <Burger chooseFavorite={this.props.chooseFavorite} ingredients={this.state.ingredients} />
+                <Burger ingredients={this.props.burgerIngredient} />
                 <BuildControls 
                     showOrderConfirmModal={this.showOrderConfirmModal}
                     ingredientNames={INGREDIENT_NAMES}
                     disabled={!this.state.purchasing}
-                    price={this.state.totalPrice}
+                    price={this.props.totalPrice}
                     disabledIngredients={disabledIngredients} 
-                    removeIngredient={this.removeIngredient} 
-                    addIngredient={this.addIngredient} 
+                    removeIngredient={this.props.removeSomeIngredient} 
+                    addIngredient={this.props.addSomeIngredient} 
                 />
             </div>
         );
     }
 }
 
-export default BurgerPage;
+const mapStateToProps = state => {
+    return {
+        burgerIngredient: state.ingredients,
+        totalPrice: state.totalPrice
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addSomeIngredient: ingredientName => dispatch(actions.addIngredient(ingredientName)),
+        removeSomeIngredient: ingredientName => dispatch(actions.removeIngredient(ingredientName))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BurgerPage);
+//export default BurgerPage;

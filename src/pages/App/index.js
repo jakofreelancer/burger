@@ -9,18 +9,14 @@ import { Route, Switch } from "react-router-dom";
 
 class App extends Component {
   state = {
-    showSidebar: false,
-    favorite: "N/A"
+    showSidebar: false//,
+    //favorite: "N/A" prop drilling.d haruulahiin tuld hiisen
   };
 
   toggleSideBar = () => {
     this.setState(prevState => {
       return {showSidebar: !prevState.showSidebar};
     });
-  };
-
-  chooseFavorite = (ingredient) => {
-    this.setState({ favorite: ingredient});
   };
 
   render () {
@@ -30,11 +26,11 @@ class App extends Component {
         <SideBar showSidebar={this.state.showSidebar} toggleSideBar={this.toggleSideBar} />
 
         <main className={style.Content}>
-          <p>Сонгосон орц : {this.state.favorite}</p>
           <Switch>
             <Route path="/orders" component={OrderPage} />
             <Route path="/shipping" component={ShippingPage} />
-            <Route path="/" render={()=> (<BurgerPage chooseFavorite={this.chooseFavorite} />) } />
+            {/*<Route path="/" render={()=> (<BurgerPage chooseFavorite={this.chooseFavorite} />) } />*/}
+            <Route path="/" component={BurgerPage} />
           </Switch>
         </main>
       </div>
