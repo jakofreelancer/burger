@@ -5,33 +5,42 @@ const initialState = {
         bacon: 0,
         meat: 0
     },
-    totalPrice: 1000
+    totalPrice: 1000,
+    purchasing: false,
+    ingredientNames: {
+        bacon: "Гахайн мах",
+        cheese: "Бяслаг",
+        meat: "Үхрийн мах",
+        salad: "Салад"
+    }
 };
 
 const INGREDIENT_PRICES = { salad: 150, cheese: 250, bacon: 800, meat: 1500 };
 
 const reducer = (state = initialState, action) => {
-    console.log("reducerees duudav: ", action);
     if(action.type === "ADD_INGREDIENT") {
-        console.log(action.ingredientToAdd);
         return {
+            ...state,
             ingredients: {
                 ...state.ingredients,
                 //bacon: state.ingredients.bacon + 1
                 [action.ingredientName]: state.ingredients[action.ingredientName] + 1
             },
-            totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+            totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+            purchasing: true
         };
     } else if(action.type === "REMOVE_INGREDIENT") {
+        const newPrice = state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
         return {
             ingredients: {
                 ...state.ingredients,
                 [action.ingredientName]: state.ingredients[action.ingredientName] - 1
             },
-            totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+            totalPrice: newPrice,
+            purchasing: newPrice > 1000
         };
     }
-    
+
     return state;
 }
 

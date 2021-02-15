@@ -17,7 +17,7 @@ const Burger = props => {
 
     if(content.length === 0)
         content = <p>Хачиртай талхныхаа орцыг сонгоно уу...</p>;
-    console.log(props);
+    
     return (
         <div className={css.Burger}>
             <BurgerIngredient type="bread-top"/>
