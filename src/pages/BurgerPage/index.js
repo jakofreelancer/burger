@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import "./style.css";
 import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
 import Modal from "../../components/General/Modal";
 import OrderSummary from "../../components/OrderSummary";
 import Spinner from "../../components/General/Spinner";
-import * as actions from "../../redux/actions/burgerActions";
 
 //unenuud uurchlugduh shaardlaga app.d bhgui uchraas dotood state.d bish classiin gadna zarlay
 
@@ -41,14 +39,6 @@ class BurgerPage extends Component {
     };
 
     render () {
-        const disabledIngredients = { ...this.props.burgerIngredient };
-
-        for(let key in disabledIngredients) {
-            disabledIngredients[key] = disabledIngredients[key] <= 0;
-        }
-
-        console.log("heyyyyy", this.props);
-
         return (
             <div>
                 <Modal closeOrderConfirmModal={this.closeOrderConfirmModal} show={this.state.confirmOrder}>
@@ -58,19 +48,12 @@ class BurgerPage extends Component {
                         <OrderSummary 
                             onCancel={this.closeOrderConfirmModal}
                             onContinue={this.continueOrder}
-                            price={this.props.totalPrice}
-                            ingredientNames={this.props.ingredientNames}
-                            ingredients={this.props.burgerIngredient} 
                         />
                     )}
                 </Modal>
-                <Burger ingredients={this.props.burgerIngredient} />
+                <Burger />
                 <BuildControls 
                     showOrderConfirmModal={this.showOrderConfirmModal}
-                    ingredientNames={this.props.ingredientNames}
-                    disabled={!this.props.purchasing}
-                    price={this.props.totalPrice}
-                    disabledIngredients={disabledIngredients} 
                     removeIngredient={this.props.removeSomeIngredient} 
                     addIngredient={this.props.addSomeIngredient} 
                 />
@@ -79,21 +62,4 @@ class BurgerPage extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        burgerIngredient: state.ingredients,
-        totalPrice: state.totalPrice,
-        purchasing: state.purchasing,
-        ingredientNames: state.ingredientNames
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        addSomeIngredient: ingredientName => dispatch(actions.addIngredient(ingredientName)),
-        removeSomeIngredient: ingredientName => dispatch(actions.removeIngredient(ingredientName))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BurgerPage);
-//export default BurgerPage;
+export default BurgerPage;

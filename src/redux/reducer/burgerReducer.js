@@ -32,6 +32,7 @@ const reducer = (state = initialState, action) => {
     } else if(action.type === "REMOVE_INGREDIENT") {
         const newPrice = state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
         return {
+            ...state,
             ingredients: {
                 ...state.ingredients,
                 [action.ingredientName]: state.ingredients[action.ingredientName] - 1
@@ -39,7 +40,7 @@ const reducer = (state = initialState, action) => {
             totalPrice: newPrice,
             purchasing: newPrice > 1000
         };
-    }
+    };
 
     return state;
 }

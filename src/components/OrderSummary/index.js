@@ -1,5 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
+
 import Button from "../General/Button";
+//import Order from "../Order";
 
 const OrderSummary = (props) => {
     return (
@@ -19,4 +22,12 @@ const OrderSummary = (props) => {
     );
 };
 
-export default OrderSummary;
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+        ingredientNames: state.ingredientNames,
+        price: state.totalPrice
+    };
+};
+
+export default connect(mapStateToProps)(OrderSummary);
