@@ -6,6 +6,7 @@ import css from "./style.module.css";
 import axios from "../../axios-orders";
 import Spinner from "../../components/General/Spinner";
 import { withRouter } from "react-router-dom";
+import * as actions from "../../redux/actions/orderActions";
 
 class ContactData extends React.Component {
     state = {
@@ -28,7 +29,7 @@ class ContactData extends React.Component {
     }
 
     saveOrder = () => {
-        const order = {
+        const newOrder = {
             ingredient: this.props.ingredients,
             price: this.props.price,
             address: {
@@ -38,21 +39,9 @@ class ContactData extends React.Component {
             }
         };
 
-        this.setState({ loading: true });
-        axios
-            .post("/orders.json", order)
-            .then(response => {
-                console.log("Order's successful!!!");
-            })
-            .catch(error => {
-                console.log("Order's amjiltgui!!!" + error);
-            })
-            .finally(() => {
-                this.setState({ loading: false });
-                this.props.history.replace("/orders");
-                //console.log('props ni ene bn: ');
-                //console.log({this.props});
-            });
+        this.props.saveOrderAction(newOrder);
+
+        // this.setState({ loading: true });
     };
 
     render() {
@@ -79,4 +68,10 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(withRouter(ContactData));
+const mapDispatchToProps = dispatch => {
+    return {
+        saveOrderAction: (newOrder) => dispatch(actions.saveOrder(newOrder))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ContactData));

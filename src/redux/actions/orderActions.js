@@ -34,3 +34,43 @@ export const loadOrdersErrors = (error) => {
         error
     };
 };
+
+//Захиалгыг хадгалах
+export const saveOrder = (newOrder) => {
+    return function(dispatch) {
+        //Spinner эргэлдэнэ
+        dispatch(saveOrderStart());
+
+        //Firebase рүү хадгална
+        axios
+            .post("/orders.json", newOrder)
+            .then(response => {
+                dispatch(saveOrderSuccess())
+            })
+            .catch(error => {
+                dispatch(saveOrderError(error));
+            });
+            // .finally(() => {
+            //     this.setState({ loading: false });
+            //     this.props.history.replace("/orders");
+            // });
+    };
+};
+
+export const saveOrderStart = () => {
+    return {
+        type: "SAVE_ORDER_START"
+    };
+};
+
+export const saveOrderSuccess = () => {
+    return {
+        type: "SAVE_ORDER_SUCCESS"
+    };
+};
+
+export const saveOrderError = () => {
+    return {
+        type: "SAVE_ORDER_ERROR"
+    };
+};
