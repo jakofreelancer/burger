@@ -50,27 +50,24 @@ export const saveOrder = (newOrder) => {
             .catch(error => {
                 dispatch(saveOrderError(error));
             });
-            // .finally(() => {
-            //     this.setState({ loading: false });
-            //     this.props.history.replace("/orders");
-            // });
     };
 };
 
 export const saveOrderStart = () => {
     return {
-        type: "SAVE_ORDER_START"
+        type: "SAVE_ORDERS_START"
     };
 };
 
 export const saveOrderSuccess = () => {
     return {
-        type: "SAVE_ORDER_SUCCESS"
+        type: "SAVE_ORDERS_SUCCESS"
     };
 };
 
-export const saveOrderError = () => {
+export const saveOrderError = (error) => {
     return {
-        type: "SAVE_ORDER_ERROR"
+        type: "SAVE_ORDERS_ERROR",
+        error
     };
 };

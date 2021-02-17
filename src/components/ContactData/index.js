@@ -12,8 +12,7 @@ class ContactData extends React.Component {
     state = {
         name: null,
         city: null,
-        street: null,
-        loading: false
+        street: null
     };
 
     changeName = (el) => {
@@ -26,6 +25,12 @@ class ContactData extends React.Component {
 
     changeCity = (el) => {
         this.setState({ city: el.target.value });
+    }
+
+    componentDidUpdate() {
+        if(this.props.newOrderStatus.finished && !this.props.newOrderStatus.error) {
+            this.props.history.replace("/orders");
+        }
     }
 
     saveOrder = () => {
@@ -48,7 +53,11 @@ class ContactData extends React.Component {
         return(
             <div className={css.ContactData}>
                 Үнэ: {this.props.price}
-                {this.state.loading ? <Spinner /> : (
+
+                <div>
+                    {this.props.newOrderStatus.error && `Захиалгыг хадгалах явцад алдаа гарлаа : ${this.props.newOrderStatus.error}`}
+                </div>
+                {this.props.newOrderStatus.saving ? <Spinner /> : (
                     <div>
                         <input onChange={this.changeName} type="text" name="name" placeholder="Таны нэр" />
                         <input onChange={this.changeStreet} type="text" name="street" placeholder="Таны гэрийн хаяг" />
@@ -64,7 +73,8 @@ class ContactData extends React.Component {
 const mapStateToProps = state => {
     return {
         price: state.burgerReducer.totalPrice,
-        ingredients: state.burgerReducer.ingredients
+        ingredients: state.burgerReducer.ingredients,
+        newOrderStatus: state.orderReducer.newOrder
     };
 };
 
