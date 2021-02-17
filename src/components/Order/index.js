@@ -1,11 +1,7 @@
 import React from "react";
-import OrderSummary from "../OrderSummary";
 import css from "./style.module.css";
 
 const Order = (props) => {
-    console.log("propsiin ORDER========> ");
-    console.log(props.order);
-
     return <div className={css.Order}>
         <p>
             Орц : Гахайн мах : {props.order.ingredient.bacon}, Салад : {props.order.ingredient.salad},
