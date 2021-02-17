@@ -3,7 +3,8 @@ import OrderSummary from "../OrderSummary";
 import css from "./style.module.css";
 
 const Order = (props) => {
-    console.log(props.order)
+    console.log("propsiin ORDER========> ");
+    console.log(props.order);
 
     return <div className={css.Order}>
         <p>
