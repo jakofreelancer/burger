@@ -4,6 +4,8 @@ import Toolbar from "../../components/Toolbar";
 import BurgerPage from "../BurgerPage";
 import SideBar from "../../components/Sidebar";
 import OrderPage from "../OrderPage";
+import LoginPage from "../LoginPage";
+import SignupPage from "../SignupPage";
 import ShippingPage from "../ShippingPage";
 import { Route, Switch } from "react-router-dom";
 
@@ -27,9 +29,10 @@ class App extends Component {
 
         <main className={style.Content}>
           <Switch>
+            <Route path="/login" component={LoginPage} />
+            <Route path="/signup" component={SignupPage} />
             <Route path="/orders" component={OrderPage} />
             <Route path="/shipping" component={ShippingPage} />
-            {/*<Route path="/" render={()=> (<BurgerPage chooseFavorite={this.chooseFavorite} />) } />*/}
             <Route path="/" component={BurgerPage} />
           </Switch>
         </main>
