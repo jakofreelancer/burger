@@ -7,8 +7,7 @@ import Order from "../../components/Order";
 
 class OrderPage extends React.Component {
     componentDidMount(){
-        this.props.loadOrders();
-        // this.setState({loading: true});
+        this.props.loadOrders(this.props.userId);
     }
 
     render() {
@@ -24,13 +23,14 @@ class OrderPage extends React.Component {
 const mapStateToProps = state => {
     return {
         orders: state.orderReducer.orders,
-        loading: state.orderReducer.loading
+        loading: state.orderReducer.loading,
+        userId: state.signupLoginReducer.userId
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        loadOrders: () => dispatch(actions.loadOrders())
+        loadOrders: (userId) => dispatch(actions.loadOrders(userId))
     };
 };
 

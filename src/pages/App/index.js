@@ -1,4 +1,5 @@
 import React, { Component} from "react";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import style from "./style.module.css";
 import Toolbar from "../../components/Toolbar";
@@ -31,14 +32,24 @@ class App extends Component {
 
         <main className={style.Content}>
           USERID: {this.props.userId}
-          <Switch>
-            <Route path="/login" component={LoginPage} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/signup" component={SignupPage} />
-            <Route path="/orders" component={OrderPage} />
-            <Route path="/shipping" component={ShippingPage} />
-            <Route path="/" component={BurgerPage} />
-          </Switch>
+          {this.props.userId ? 
+            (
+              <Switch>
+                <Route path="/logout" component={Logout} />
+                <Route path="/orders" component={OrderPage} />
+                <Route path="/shipping" component={ShippingPage} />
+                <Route path="/" component={BurgerPage} />
+              </Switch>
+            ) : 
+            (
+              <Switch>
+                  <Switch>
+                    <Route path="/login" component={LoginPage} />
+                    <Route path="/signup" component={SignupPage} />
+                    <Redirect to="/login" />
+                  </Switch>
+              </Switch>
+          )}
         </main>
       </div>
     );
