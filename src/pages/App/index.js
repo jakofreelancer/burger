@@ -28,9 +28,22 @@ class App extends Component {
   componentDidMount = () => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
+    const expireDate = new Date(localStorage.getItem("expireDate"));
+    const refreshToken = localStorage.getItem("refreshToken");
     
     if (token) {
-      this.props.autoLogin(token, userId);
+      if(expireDate > new Date()) {
+        // Хугацаа нь дуусаагүй токен, автомат логин хийнэ
+        const leftSeconds = expireDate.getTime()-new Date().getTime();
+        this.props.autoLogin(token, userId, leftSeconds);
+
+        this.props.autoLogoutAfterMilSeconds(
+          leftSeconds
+        );
+      } else {
+        // Токен хугацаа дууссан байна logout
+        this.props.logout();
+      }
     }
   };
 
@@ -74,7 +87,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     autoLogin: (token, userId) => 
-      dispatch(actions.loginUserSuccess(token, userId))
+      dispatch(actions.loginUserSuccess(token, userId)),
+      logout: () => dispatch(actions.logout),
+      autoLogoutAfterMilSeconds: (leftSeconds) => dispatch(actions.autoLogoutAfterMilSeconds(leftSeconds))
   };
 };
 
