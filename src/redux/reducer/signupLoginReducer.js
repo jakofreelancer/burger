@@ -48,6 +48,14 @@ const reducer = (state = initialState, action) => {
             authServerErrorCode: action.error.response.data.error.code
         };
 
+        case "LOGOUT" : return {
+            ...state,
+            token: null,
+            userId: null,
+            authServerError: null,
+            authServerErrorCode: null
+        };
+
         default: 
             return state;
     }

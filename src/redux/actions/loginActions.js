@@ -44,3 +44,9 @@ export const loginUserError = (error) => {
         error
     };
 }; 
+
+export const logout = () => {
+    return {
+        type: "LOGOUT"
+    };
+};
