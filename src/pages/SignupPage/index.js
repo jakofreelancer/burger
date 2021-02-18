@@ -37,7 +37,7 @@ class Signup extends Component {
     render() {
         return ( 
             <div className={css.Signup}>
-                {this.props.userId && <Redirect to="/orders" />}
+                {this.props.userId && <Redirect to="/" />}
                 <h1>Бүртгэлийн форм </h1>
                 <div>Өөрийн мэдээллээ оруулна уу!</div>
                 <input onChange={this.changeEmail} type="text" name="email" placeholder="Имэйл хаяг" />
@@ -46,7 +46,7 @@ class Signup extends Component {
                 {this.state.error && (<div style={{color:"red"}}>{this.state.error}</div>)}
 
                 {
-                    this.props.signupServerError && (<div style={{color:"red"}}>{this.props.signupServerError}</div>)
+                    this.props.authServerError && (<div style={{color:"red"}}>{this.props.authServerError}</div>)
                 }
 
                 {this.props.saving && <Spinner />}
@@ -59,9 +59,9 @@ class Signup extends Component {
 
 const mapStateToProps = state => {
     return {
-        saving: state.signupReducer.saving,
-        signupServerError: state.signupReducer.signupServerError,
-        userId: state.signupReducer.userId
+        saving: state.signupLoginReducer.saving,
+        authServerError: state.signupLoginReducer.authServerError,
+        userId: state.signupLoginReducer.userId
     };
 };
 

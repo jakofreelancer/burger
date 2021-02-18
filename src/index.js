@@ -11,16 +11,16 @@ import thunk from "redux-thunk";
 
 import burgerReducer from "./redux/reducer/burgerReducer";
 import orderReducer from "./redux/reducer/orderReducer";
-import signupReducer from "./redux/reducer/signupReducer";
+import signupLoginReducer from "./redux/reducer/signupLoginReducer";
 
 const loggerMiddleware = store => {
   return next => {
     return action => {
-       console.log("MyLoggerMiddleware: Dispatching ==> ", action);
-       console.log("MyLoggerMiddleware: State before : ", store.getState());
-       const result = next(action);
-       console.log("MyLoggerMiddleware: State after : ", store.getState());
-       return result;
+        console.log("MyLoggerMiddleware: Dispatching ==> ", action);
+        console.log("MyLoggerMiddleware: State before : ", store.getState());
+        const result = next(action);
+        console.log("MyLoggerMiddleware: State after : ", store.getState());
+        return result;
     };
   };
 };
@@ -30,7 +30,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const reducers = combineReducers({
   burgerReducer,
   orderReducer,
-  signupReducer
+  signupLoginReducer
 });
 
 const middlewares = [loggerMiddleware, thunk];
