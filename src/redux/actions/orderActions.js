@@ -1,13 +1,18 @@
 import axios from "../../axios-orders";
 
-export const loadOrders = (userId) => {
-    return function(dispatch) {
+//export const loadOrders = (userId, token) => {
+// getState ashiglalgui componentoor damjuulj hiij bolno
+export const loadOrders = () => {
+    return function(dispatch, getState) {
         //Захиалгыг татаж эхэллээ гэдгийг мэдэгдэнэ.
         //Энийг хүлээж аваад Spinner ажиллаж эхлэнэ.
         dispatch(loadOrdersStart());
 
+        const token = getState().signupLoginReducer.token;
+        const userId = getState().signupLoginReducer.userId;
+
         axios
-            .get(`/orders.json?orderBy="userId"&equalTo="${userId}"`)
+            .get(`/orders.json?&auth=${token}&orderBy="userId"&equalTo="${userId}"`)
             .then(response => {
                 const loadedOrders = Object.entries(response.data).reverse();
                 dispatch(loadOrdersSuccess(loadedOrders));
@@ -37,13 +42,15 @@ export const loadOrdersErrors = (error) => {
 
 //Захиалгыг хадгалах
 export const saveOrder = (newOrder) => {
-    return function(dispatch) {
+    return function(dispatch, getState) {
         //Spinner эргэлдэнэ
         dispatch(saveOrderStart());
 
+        const token = getState().signupLoginReducer.token;
+
         //Firebase рүү хадгална
         axios
-            .post("/orders.json", newOrder)
+            .post(`/orders.json?auth=${token}`, newOrder)
             .then(response => {
                 dispatch(saveOrderSuccess())
             })
