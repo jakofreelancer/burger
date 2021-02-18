@@ -26,7 +26,9 @@ class Login extends Component {
     }
 
     render() {
-        return ( 
+        console.log(this.props);
+        console.log(this.props.userId);
+        return (
             <div className={css.Login}>
                 {this.props.userId && <Redirect to="/orders" />}
 

@@ -11,6 +11,7 @@ import SignupPage from "../SignupPage";
 import ShippingPage from "../ShippingPage";
 import { Route, Switch } from "react-router-dom";
 import Logout from "../../components/Logout";
+import * as actions from "../../redux/actions/loginActions";
 
 class App extends Component {
   state = {
@@ -24,6 +25,15 @@ class App extends Component {
     });
   };
 
+  componentDidMount = () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    
+    if (token) {
+      this.props.autoLogin(token, userId);
+    }
+  };
+
   render () {
     return (
       <div className="App">
@@ -31,7 +41,6 @@ class App extends Component {
         <SideBar showSidebar={this.state.showSidebar} toggleSideBar={this.toggleSideBar} />
 
         <main className={style.Content}>
-          USERID: {this.props.userId}
           {this.props.userId ? 
             (
               <Switch>
@@ -62,4 +71,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    autoLogin: (token, userId) => 
+      dispatch(actions.loginUserSuccess(token, userId))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
