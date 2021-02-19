@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../redux/actions/loginActions";
 
@@ -7,44 +7,58 @@ import Button from "../../components/General/Button";
 import Spinner from "../../components/General/Spinner";
 import { Redirect } from "react-router-dom";
 
-class Login extends Component {
-    state = {
-        email: "",
-        password: ""
+const Login = (props) => {
+    // Зэрэг байнга өөрчлөгддөг өгөгдлүүдийг ингэж объект болгох нь дээр байдаг
+    //const [user, setUser] = useState({name: "", pass: ""});
+    // console.log(user.name);
+    // setUser({name: "naraa", pass: "123"});
+    
+    const [form, setForm] = useState({email: "", password: ""});
+
+    const login = () => {
+        props.login(form.email, form.password);
     };
 
-    login = () => {
-        this.props.login(this.state.email, this.state.password);
-    };
-
-    changeEmail = (el) => {
-        this.setState({email: el.target.value})
+    const changeEmail = (el) => {
+        const newEmail = el.target.value;
+        setForm(formBefore => ({ 
+            email: newEmail, 
+            password: formBefore.password 
+        }));
     }
 
-    changePassword = (el) => {
-        this.setState({password: el.target.value})
+    const changePassword = (el) => {
+        const newPassword = el.target.value;
+        setForm(formBefore => ({ 
+            email: formBefore.email, 
+            password: newPassword 
+        }));
     }
 
-    render() {
-        console.log(this.props);
-        console.log(this.props.userId);
-        return (
-            <div className={css.Login}>
-                {this.props.userId && <Redirect to="/orders" />}
+    //console.log(props);
+    //console.log(props.userId);
+    return (
+        <div className={css.Login}>
+            {props.userId && <Redirect to="/orders" />}
 
-                <input onChange={this.changeEmail} type="text" placeholder="Имэйл хаяг" />
-                <input onChange={this.changePassword} type="password" placeholder="Нууц үг" />
-                
-                {this.props.logginIn && <Spinner />}
+            <input onChange={changeEmail} type="text" placeholder="Имэйл хаяг" />
+            <input onChange={changePassword} type="password" placeholder="Нууц үг" />
+            
+            {props.logginIn && <Spinner />}
 
-                {this.props.authServerError && (<div style={{color:"red"}}>
-                    Алдааны код: {this.props.authServerErrorCode} <br/>
-                    Алдааны мессеж: {this.props.authServerError}</div>)}
-                
-                <Button text="Нэвтрэх" btnType="Success" clicked={this.login} />
-            </div>
-        );
-    }
+            {
+                props.authServerError && 
+                (
+                    <div style={ {color:"red"} }>
+                        Алдааны код: {props.authServerErrorCode} <br/>
+                        Алдааны мессеж: {props.authServerError}
+                    </div>
+                )
+            }
+            
+            <Button text="Нэвтрэх" btnType="Success" clicked={login} />
+        </div>
+    );
 }
 
 const mapStateToProps = state => {

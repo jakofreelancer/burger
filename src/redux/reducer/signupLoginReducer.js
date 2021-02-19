@@ -44,10 +44,10 @@ const reducer = (state = initialState, action) => {
         case "LOGIN_USER_ERROR" : return {
             ...state,
             logginIn: false,
-            authServerError: action.error,
-            authServerErrorCode: action.error
-            //authServerError: action.error.response.data.error.message,
-            //authServerErrorCode: action.error.response.data.error.code
+            // authServerError: action.error,
+            // authServerErrorCode: action.error
+            authServerError: action.error.response.data.error.message,
+            authServerErrorCode: action.error.response.data.error.code
         };
 
         case "LOGOUT" : return {
