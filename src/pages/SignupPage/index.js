@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import css from "./style.module.css";
 import Button from "../../components/General/Button";
 import * as actions from "../../redux/actions/signupActions";
@@ -6,55 +6,56 @@ import { connect } from "react-redux";
 import Spinner from "../../components/General/Spinner";
 import { Redirect } from "react-router-dom";
 
-class Signup extends Component {
-    state = {
-        email: "",
-        password1: "",
-        password2: "",
-        error: ""
-    };
+const Signup = (props) => {
+    // Зэрэг байнга өөрчлөгддөг өгөгдлүүдийг ингэж объект болгох нь дээр байдаг
+    //const [user, setUser] = useState({name: "", pass: ""});
+    // console.log(user.name);
+    // setUser({name: "naraa", pass: "123"});
 
-    changeEmail = (el) => {
-        this.setState({email: el.target.value})
+    const [email, setEmail] = useState("");
+    const [password1, setPassword1] = useState("");
+    const [password2, setPassword2] = useState("");
+    const [error, setError] = useState("");
+
+    const changeEmail = (el) => {
+        setEmail(el.target.value);
     }
 
-    changePassword1 = (el) => {
-        this.setState({password1: el.target.value})
+    const changePassword1 = (el) => {
+        setPassword1(el.target.value);
     }
 
-    changePassword2 = (el) => {
-        this.setState({password2: el.target.value})
+    const changePassword2 = (el) => {
+        setPassword2(el.target.value);
     }
 
-    signup = () => {
-        if(this.state.password1 === this.state.password2) {
-            this.props.signupUser(this.state.email, this.state.password1);
+    const signup = () => {
+        if(password1 === password2) {
+            props.signupUser(email, password1);
         } else {
-            this.setState({error: "Нууц үгнүүд хоорондоо таарахгүй байна"});
+            setError("Нууц үгнүүд хоорондоо таарахгүй байна");
         }
     };
 
-    render() {
-        return ( 
-            <div className={css.Signup}>
-                {this.props.userId && <Redirect to="/" />}
-                <h1>Бүртгэлийн форм </h1>
-                <div>Өөрийн мэдээллээ оруулна уу!</div>
-                <input onChange={this.changeEmail} type="text" name="email" placeholder="Имэйл хаяг" />
-                <input onChange={this.changePassword1} type="password" name="password1" placeholder="Нууц үгээ оруулна уу" />
-                <input onChange={this.changePassword2} type="password" name="password2" placeholder="Нууц үгээ давтан оруулна уу" />
-                {this.state.error && (<div style={{color:"red"}}>{this.state.error}</div>)}
+    return ( 
+        <div className={css.Signup}>
+            {props.userId && <Redirect to="/" />}
+            <h1>Бүртгэлийн форм </h1>
+            <div>Өөрийн мэдээллээ оруулна уу!</div>
+            <input onChange={changeEmail} type="text" name="email" placeholder="Имэйл хаяг" />
+            <input onChange={changePassword1} type="password" name="password1" placeholder="Нууц үгээ оруулна уу" />
+            <input onChange={changePassword2} type="password" name="password2" placeholder="Нууц үгээ давтан оруулна уу" />
+            {error && (<div style={{color:"red"}}>{error}</div>)}
 
-                {
-                    this.props.authServerError && (<div style={{color:"red"}}>{this.props.authServerError}</div>)
-                }
+            {
+                props.authServerError && (<div style={{color:"red"}}>{props.authServerError}</div>)
+            }
 
-                {this.props.saving && <Spinner />}
+            {props.saving && <Spinner />}
 
-                <Button text="БҮРТГҮҮЛЭХ" btnType="Success" clicked={this.signup} />
-            </div>
-        );
-    }
+            <Button text="БҮРТГҮҮЛЭХ" btnType="Success" clicked={signup} />
+        </div>
+    );
 }
 
 const mapStateToProps = state => {
