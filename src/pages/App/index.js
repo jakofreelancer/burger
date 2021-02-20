@@ -1,4 +1,4 @@
-import React, { Component} from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import style from "./style.module.css";
@@ -13,19 +13,14 @@ import { Route, Switch } from "react-router-dom";
 import Logout from "../../components/Logout";
 import * as actions from "../../redux/actions/loginActions";
 
-class App extends Component {
-  state = {
-    showSidebar: false//,
-    //favorite: "N/A" prop drilling.d haruulahiin tuld hiisen
+const App = props => {
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  const toggleSideBar = () => {
+    setShowSidebar(prevState => !prevState);
   };
 
-  toggleSideBar = () => {
-    this.setState(prevState => {
-      return {showSidebar: !prevState.showSidebar};
-    });
-  };
-
-  componentDidMount = () => {
+  useEffect(() => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     const expireDate = new Date(localStorage.getItem("expireDate"));
@@ -35,47 +30,45 @@ class App extends Component {
       if(expireDate > new Date()) {
         // Хугацаа нь дуусаагүй токен, автомат логин хийнэ
         const leftSeconds = expireDate.getTime()-new Date().getTime();
-        this.props.autoLogin(token, userId, leftSeconds);
+        props.autoLogin(token, userId, leftSeconds);
 
-        this.props.autoLogoutAfterMilSeconds(
+        props.autoLogoutAfterMilSeconds(
           leftSeconds
         );
       } else {
         // Токен хугацаа дууссан байна logout
-        this.props.logout();
+        props.logout();
       }
     }
-  };
+  }, []);
 
-  render () {
-    return (
-      <div className="App">
-        <Toolbar toggleSideBar={this.toggleSideBar} />
-        <SideBar showSidebar={this.state.showSidebar} toggleSideBar={this.toggleSideBar} />
+  return (
+    <div className="App">
+      <Toolbar toggleSideBar={toggleSideBar} />
+      <SideBar showSidebar={showSidebar} toggleSideBar={toggleSideBar} />
 
-        <main className={style.Content}>
-          {this.props.userId ? 
-            (
-              <Switch>
-                <Route path="/logout" component={Logout} />
-                <Route path="/orders" component={OrderPage} />
-                <Route path="/shipping" component={ShippingPage} />
-                <Route path="/" component={BurgerPage} />
-              </Switch>
-            ) : 
-            (
-              <Switch>
-                  <Switch>
-                    <Route path="/login" component={LoginPage} />
-                    <Route path="/signup" component={SignupPage} />
-                    <Redirect to="/login" />
-                  </Switch>
-              </Switch>
-          )}
-        </main>
-      </div>
-    );
-  }
+      <main className={style.Content}>
+        {props.userId ? 
+          (
+            <Switch>
+              <Route path="/logout" component={Logout} />
+              <Route path="/orders" component={OrderPage} />
+              <Route path="/shipping" component={ShippingPage} />
+              <Route path="/" component={BurgerPage} />
+            </Switch>
+          ) : 
+          (
+            <Switch>
+                <Switch>
+                  <Route path="/login" component={LoginPage} />
+                  <Route path="/signup" component={SignupPage} />
+                  <Redirect to="/login" />
+                </Switch>
+            </Switch>
+        )}
+      </main>
+    </div>
+  );
 }
 
 const mapStateToProps = state => {
