@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 
 import Button from "../General/Button";
@@ -11,6 +11,7 @@ const ContactData = (props) => {
     const [name, setName] = useState();
     const [city, setCity] = useState();
     const [street, setStreet] = useState();
+    const amountRef = useRef();
 
     useEffect(() => {
         console.log("ContactData effect...");
@@ -26,6 +27,11 @@ const ContactData = (props) => {
     }, [props.newOrderStatus.finished]);
 
     const changeName = (el) => {
+        //console.log(amountRef.current);
+        //amountRef.current.style.color = "red" ? ("green") : (amountRef.current.style.color); 
+        if(amountRef.current.style.color === "red") 
+            amountRef.current.style.color = "green";
+        else amountRef.current.style.color = "red";
         setName(el.target.value);
     }
 
@@ -56,7 +62,7 @@ const ContactData = (props) => {
 
     return(
         <div className={css.ContactData}>
-            Үнэ: {props.price}
+            <div ref={amountRef}><strong style={{fontSize: "16px"}}>Үнэ: {props.price}</strong></div>
 
             <div>
                 {props.newOrderStatus.error && `Захиалгыг хадгалах явцад алдаа гарлаа : ${props.newOrderStatus.error}`}
