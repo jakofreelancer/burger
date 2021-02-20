@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import style from "./style.module.css";
 import Toolbar from "../../components/Toolbar";
-import BurgerPage from "../BurgerPage";
 import SideBar from "../../components/Sidebar";
-import OrderPage from "../OrderPage";
 import LoginPage from "../LoginPage";
-import SignupPage from "../SignupPage";
 import ShippingPage from "../ShippingPage";
 import { Route, Switch } from "react-router-dom";
 import Logout from "../../components/Logout";
 import * as actions from "../../redux/actions/loginActions";
+
+const BurgerPage = React.lazy(() => {
+  return import("../BurgerPage");
+});
+
+const OrderPage = React.lazy(() => {
+  return import("../OrderPage");
+});
+
+const SignupPage = React.lazy(() => {
+  return import("../SignupPage");
+});
 
 const App = props => {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -48,24 +57,26 @@ const App = props => {
       <SideBar showSidebar={showSidebar} toggleSideBar={toggleSideBar} />
 
       <main className={style.Content}>
-        {props.userId ? 
-          (
-            <Switch>
-              <Route path="/logout" component={Logout} />
-              <Route path="/orders" component={OrderPage} />
-              <Route path="/shipping" component={ShippingPage} />
-              <Route path="/" component={BurgerPage} />
-            </Switch>
-          ) : 
-          (
-            <Switch>
-                <Switch>
-                  <Route path="/login" component={LoginPage} />
-                  <Route path="/signup" component={SignupPage} />
-                  <Redirect to="/login" />
-                </Switch>
-            </Switch>
-        )}
+        <Suspense fallback={<div>Түр хүлээнэ үү...</div>}>
+          {props.userId ? 
+            (
+              <Switch>
+                <Route path="/logout" component={Logout} />
+                <Route path="/orders" component={OrderPage} />
+                <Route path="/shipping" component={ShippingPage} />
+                <Route path="/" component={BurgerPage} />
+              </Switch>
+            ) : 
+            (
+              <Switch>
+                  <Switch>
+                    <Route path="/login" component={LoginPage} />
+                    <Route path="/signup" component={SignupPage} />
+                    <Redirect to="/login" />
+                  </Switch>
+              </Switch>
+          )}
+        </Suspense>
       </main>
     </div>
   );
