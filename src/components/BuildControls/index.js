@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "../../redux/actions/burgerActions";
 import css from "./style.module.css";
 import BuildControl from "../BuildControl";
 
@@ -18,9 +17,7 @@ const BuildControls = props => {
             {Object.keys(props.ingredientNames).map( el => (
                 <BuildControl 
                     key={el}
-                    disabled={disabledIngredients} 
-                    removeIngredient={props.removeIngredient}
-                    addIngredient={props.addIngredient}
+                    disabled={disabledIngredients}
                     type={el}
                     ingredient={props.ingredientNames[el]}
                 />
@@ -45,11 +42,4 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addIngredient: ingredientName => dispatch(actions.addIngredient(ingredientName)),
-        removeIngredient: ingredientName => dispatch(actions.removeIngredient(ingredientName))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BuildControls);
+export default connect(mapStateToProps)(BuildControls);

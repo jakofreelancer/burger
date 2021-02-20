@@ -31,11 +31,7 @@ const BurgerPage = (props) =>  {
             />
             </Modal>
             <Burger />
-            <BuildControls 
-                showOrderConfirmModal={showOrderConfirmModal}
-                removeIngredient={props.removeSomeIngredient} 
-                addIngredient={props.addSomeIngredient} 
-            />
+            <BuildControls showOrderConfirmModal={showOrderConfirmModal}/>
         </div>
     );
 }
