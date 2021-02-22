@@ -43,12 +43,10 @@ const App = props => {
         const leftSeconds = expireDate.getTime()-new Date().getTime();
         userCtx.loginUserSuccess(token, userId, leftSeconds, refreshToken);
 
-        // props.autoLogoutAfterMilSeconds(
-        //   leftSeconds
-        // );
+        userCtx.autoRenewTokenAfterMilSeconds(leftSeconds);
       } else {
         // Токен хугацаа дууссан байна logout
-        userCtx.logout();
+        userCtx.autoRenewTokenAfterMilSeconds(3600*1000);
       }
     }
   }, []);
