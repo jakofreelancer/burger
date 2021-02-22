@@ -10,6 +10,7 @@ import { Route, Switch } from "react-router-dom";
 import Logout from "../../components/Logout";
 import * as actions from "../../redux/actions/loginActions";
 import { BurgerStore } from "../../context/BurgerContext";
+import { OrderStore } from "../../context/OrdersContext";
 import Burger from "../../components/Burger";
 
 const BurgerPage = React.lazy(() => {
@@ -65,7 +66,11 @@ const App = props => {
               (
                 <Switch>
                   <Route path="/logout" component={Logout} />
-                  <Route path="/orders" component={OrderPage} />
+                  <Route path="/orders">
+                    <OrderStore>
+                      <OrderPage />
+                    </OrderStore>
+                  </Route>
                   <Route path="/shipping" component={ShippingPage} />
                   <Route path="/" component={BurgerPage} />
                 </Switch>
