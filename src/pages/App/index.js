@@ -31,27 +31,27 @@ const App = props => {
     setShowSidebar(prevState => !prevState);
   };
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   const userId = localStorage.getItem("userId");
-  //   const expireDate = new Date(localStorage.getItem("expireDate"));
-  //   const refreshToken = localStorage.getItem("refreshToken");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    const expireDate = new Date(localStorage.getItem("expireDate"));
+    const refreshToken = localStorage.getItem("refreshToken");
     
-  //   if (token) {
-  //     if(expireDate > new Date()) {
-  //       // Хугацаа нь дуусаагүй токен, автомат логин хийнэ
-  //       const leftSeconds = expireDate.getTime()-new Date().getTime();
-  //       props.autoLogin(token, userId, leftSeconds);
+    if (token) {
+      if(expireDate > new Date()) {
+        // Хугацаа нь дуусаагүй токен, автомат логин хийнэ
+        const leftSeconds = expireDate.getTime()-new Date().getTime();
+        userCtx.loginUserSuccess(token, userId, leftSeconds, refreshToken);
 
-  //       props.autoLogoutAfterMilSeconds(
-  //         leftSeconds
-  //       );
-  //     } else {
-  //       // Токен хугацаа дууссан байна logout
-  //       props.logout();
-  //     }
-  //   }
-  // }, []);
+        // props.autoLogoutAfterMilSeconds(
+        //   leftSeconds
+        // );
+      } else {
+        // Токен хугацаа дууссан байна logout
+        userCtx.logout();
+      }
+    }
+  }, []);
 
   return (
     <div className="App">

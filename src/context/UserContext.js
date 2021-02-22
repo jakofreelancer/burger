@@ -16,6 +16,23 @@ const initialState = {
 export const UserStore = props => {
     const [state, setState] = useState(initialState);
 
+    const loginUserSuccess = (token, userId, expireDate, refreshToken) => {
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("expireDate", expireDate);
+        localStorage.setItem("refreshToken", refreshToken);
+
+        setState({ 
+            ...state, 
+            logginIn: false, 
+            error: null, 
+            errorCode: null,
+            token,
+            userId,
+            expireDate
+        });
+    };
+
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
@@ -85,20 +102,7 @@ export const UserStore = props => {
                 const expireDate = new Date(new Date().getTime() + expiresIn * 1000);
                 const refreshToken = result.data.refreshToken;
 
-                localStorage.setItem("token", token);
-                localStorage.setItem("userId", userId);
-                localStorage.setItem("expireDate", expireDate);
-                localStorage.setItem("refreshToken", refreshToken);
-
-                setState({ 
-                    ...state, 
-                    logginIn: false, 
-                    error: null, 
-                    errorCode: null,
-                    token,
-                    userId,
-                    expireDate
-                });
+                loginUserSuccess(token, userId, expireDate, refreshToken);
 
                 // dispatch(loginUserSuccess(token, userId));
                 //console.log("expire1");
@@ -164,7 +168,7 @@ export const UserStore = props => {
     };
 
     return (
-        <UserContext.Provider value={{ state, signupUser, loginUser, logout }}>
+        <UserContext.Provider value={{ state, signupUser, loginUser, logout, loginUserSuccess }}>
             {props.children}
         </UserContext.Provider>
     );
