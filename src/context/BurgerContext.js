@@ -28,16 +28,15 @@ const INGREDIENT_PRICES = { salad: 150, cheese: 250, bacon: 800, meat: 1500 };
 export const BurgerStore = props => {
     const [burger, setBurger] = useState(initialState);
 
-    const saveBurger = (newOrder) => {
+    const saveBurger = (newOrder, token) => {
         //Spinner эргэлдэнэ
         setBurger({ ...burger, saving: true });
 
         //const token = getState().signupLoginReducer.token;
 
         //Firebase рүү хадгална
-        ///orders.json?auth=${token}
         axios
-            .post(`/orders.json`, newOrder)
+            .post(`/orders.json?auth=${token}`, newOrder)
             .then(response => {
                 setBurger({ ...burger, saving: false, finished: true, error: null });
             })
