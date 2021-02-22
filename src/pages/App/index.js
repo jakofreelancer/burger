@@ -59,29 +59,28 @@ const App = props => {
       <SideBar showSidebar={showSidebar} toggleSideBar={toggleSideBar} />
 
       <main className={style.Content}>
-        <Suspense fallback={<div>Түр хүлээнэ үү...</div>}>
-          {props.userId ? 
-            (
-              <Switch>
-                <Route path="/logout" component={Logout} />
-                <Route path="/orders" component={OrderPage} />
-                <BurgerStore>
+        <BurgerStore>
+          <Suspense fallback={<div>Түр хүлээнэ үү...</div>}>
+            {props.userId ? 
+              (
+                <Switch>
+                  <Route path="/logout" component={Logout} />
+                  <Route path="/orders" component={OrderPage} />
                   <Route path="/shipping" component={ShippingPage} />
                   <Route path="/" component={BurgerPage} />
-                </BurgerStore>
-                
-              </Switch>
-            ) : 
-            (
-              <Switch>
-                  <Switch>
-                    <Route path="/login" component={LoginPage} />
-                    <Route path="/signup" component={SignupPage} />
-                    <Redirect to="/login" />
-                  </Switch>
-              </Switch>
-          )}
-        </Suspense>
+                </Switch>
+              ) : 
+              (
+                <Switch>
+                    <Switch>
+                      <Route path="/login" component={LoginPage} />
+                      <Route path="/signup" component={SignupPage} />
+                      <Redirect to="/login" />
+                    </Switch>
+                </Switch>
+            )}
+          </Suspense>
+        </BurgerStore>
       </main>
     </div>
   );
