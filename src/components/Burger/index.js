@@ -1,13 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useContext } from "react";
 import BurgerIngredient from "../BurgerIngredient";
 import css from "./style.module.css";
-import { withRouter } from "react-router-dom";
+import BurgerContext from "../../context/BurgerContext";
 
 const Burger = props => {
+    const burgerContext = useContext(BurgerContext);
     //{bacon: 2, cheese: 2, meat: 1, salad: 1}
     //console.log(props.ingredients);
-    const items = Object.entries(props.ingredients);
+    const items = Object.entries(burgerContext.ingredients);
     //console.log(items);
     
     let content = [];
@@ -28,10 +28,4 @@ const Burger = props => {
     );
 };
 
-const mapStateToProps = state => {
-    return {
-        ingredients: state.burgerReducer.ingredients
-    };
-};
-
-export default connect(mapStateToProps)(withRouter(Burger));
+export default Burger;
