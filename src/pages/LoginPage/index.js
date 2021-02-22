@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import * as actions from "../../redux/actions/loginActions";
+import React, { useState, useEffect, useContext } from "react";
 
 import css from "./style.module.css";
 import Button from "../../components/General/Button";
 import Spinner from "../../components/General/Spinner";
 import { Redirect } from "react-router-dom";
+import UserContext from "../../context/UserContext";
 
 const Login = (props) => {
+    const ctx = useContext(UserContext);
     // Зэрэг байнга өөрчлөгддөг өгөгдлүүдийг ингэж объект болгох нь дээр байдаг
     //const [user, setUser] = useState({name: "", pass: ""});
     // console.log(user.name);
@@ -16,7 +16,7 @@ const Login = (props) => {
     const [form, setForm] = useState({email: "", password: ""});
 
     const login = () => {
-        props.login(form.email, form.password);
+        ctx.loginUser(form.email, form.password);
     };
 
     const changeEmail = (el) => {
@@ -39,19 +39,19 @@ const Login = (props) => {
     //console.log(props.userId);
     return (
         <div className={css.Login}>
-            {props.userId && <Redirect to="/orders" />}
+            {ctx.state.userId && <Redirect to="/orders" />}
 
             <input onChange={changeEmail} type="text" placeholder="Имэйл хаяг" />
             <input onChange={changePassword} type="password" placeholder="Нууц үг" />
             
-            {props.logginIn && <Spinner />}
+            {ctx.state.logginIn && <Spinner />}
 
             {
-                props.authServerError && 
+                ctx.state.authServerError && 
                 (
                     <div style={ {color:"red"} }>
-                        Алдааны код: {props.authServerErrorCode} <br/>
-                        Алдааны мессеж: {props.authServerError}
+                        Алдааны код: {ctx.state.authServerErrorCode} <br/>
+                        Алдааны мессеж: {ctx.state.authServerError}
                     </div>
                 )
             }
@@ -59,21 +59,6 @@ const Login = (props) => {
             <Button text="Нэвтрэх" btnType="Success" clicked={login} />
         </div>
     );
-}
-
-const mapStateToProps = state => {
-    return {
-        logginIn: state.signupLoginReducer.logginIn,
-        authServerError: state.signupLoginReducer.authServerError,
-        authServerErrorCode: state.signupLoginReducer.authServerErrorCode,
-        userId: state.signupLoginReducer.userId
-    };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        login: (email, password) => dispatch(actions.loginUser(email, password))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
