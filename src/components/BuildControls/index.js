@@ -1,10 +1,11 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useContext } from "react";
 import css from "./style.module.css";
 import BuildControl from "../BuildControl";
+import BurgerContext from "../../context/BurgerContext";
 
 const BuildControls = props => {
-    const disabledIngredients = { ...props.burgerIngredient };
+    const burgerContext = useContext(BurgerContext);
+    const disabledIngredients = { ...burgerContext.burger.ingredients };
 
     for(let key in disabledIngredients) {
         disabledIngredients[key] = disabledIngredients[key] <= 0;
@@ -12,20 +13,20 @@ const BuildControls = props => {
 
     return (
         <div className={css.BuildControls}>
-            <p>Бургерийн үнэ: <strong>{props.price}</strong></p>
+            <p>Бургерийн үнэ: <strong>{burgerContext.burger.totalPrice}</strong></p>
 
-            {Object.keys(props.ingredientNames).map( el => (
+            {Object.keys(burgerContext.burger.ingredientNames).map( el => (
                 <BuildControl 
                     key={el}
                     disabled={disabledIngredients}
                     type={el}
-                    ingredient={props.ingredientNames[el]}
+                    ingredient={burgerContext.burger.ingredientNames[el]}
                 />
             ))}
             
             <button 
                 onClick={props.showOrderConfirmModal} 
-                disabled={!props.purchasing} 
+                disabled={!burgerContext.burger.purchasing} 
                 className={css.OrderButton}>
                     ЗАХИАЛАХ
             </button>
@@ -33,13 +34,4 @@ const BuildControls = props => {
     );
 };
 
-const mapStateToProps = state => {
-    return {
-        burgerIngredient: state.burgerReducer.ingredients,
-        price: state.burgerReducer.totalPrice,
-        purchasing: state.burgerReducer.purchasing,
-        ingredientNames: state.burgerReducer.ingredientNames
-    };
-};
-
-export default connect(mapStateToProps)(BuildControls);
+export default BuildControls;
