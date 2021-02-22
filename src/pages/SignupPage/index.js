@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import css from "./style.module.css";
 import Button from "../../components/General/Button";
-import * as actions from "../../redux/actions/signupActions";
-import { connect } from "react-redux";
 import Spinner from "../../components/General/Spinner";
 import { Redirect } from "react-router-dom";
+import UserContext from "../../context/UserContext";
 
 const Signup = (props) => {
+    const ctx = useContext(UserContext);
     // Зэрэг байнга өөрчлөгддөг өгөгдлүүдийг ингэж объект болгох нь дээр байдаг
     //const [user, setUser] = useState({name: "", pass: ""});
     // console.log(user.name);
@@ -23,7 +23,7 @@ const Signup = (props) => {
 
     const signup = () => {
         if(password1 === password2) {
-            props.signupUser(email, password1);
+            ctx.signupUser(email, password1);
         } else {
             setError("Нууц үгнүүд хоорондоо таарахгүй байна");
         }
@@ -31,7 +31,7 @@ const Signup = (props) => {
 
     return ( 
         <div className={css.Signup}>
-            {props.userId && <Redirect to="/" />}
+            {ctx.state.userId && <Redirect to="/" />}
             <h1>Бүртгэлийн форм </h1>
             <div>Өөрийн мэдээллээ оруулна уу!</div>
             <input onChange={el => setEmail(el.target.value)} type="text" name="email" placeholder="Имэйл хаяг" />
@@ -40,28 +40,14 @@ const Signup = (props) => {
             {error && (<div style={{color:"red"}}>{error}</div>)}
 
             {
-                props.authServerError && (<div style={{color:"red"}}>{props.authServerError}</div>)
+                ctx.state.authServerError && (<div style={{color:"red"}}>{ctx.state.authServerError}</div>)
             }
 
-            {props.saving && <Spinner />}
+            {ctx.state.saving && <Spinner />}
 
             <Button text="БҮРТГҮҮЛЭХ" btnType="Success" clicked={signup} />
         </div>
     );
 }
 
-const mapStateToProps = state => {
-    return {
-        saving: state.signupLoginReducer.saving,
-        authServerError: state.signupLoginReducer.authServerError,
-        userId: state.signupLoginReducer.userId
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        signupUser: (email, password) => dispatch(actions.signupUser(email, password))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default Signup;

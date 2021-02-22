@@ -12,6 +12,7 @@ import thunk from "redux-thunk";
 import burgerReducer from "./redux/reducer/burgerReducer";
 import orderReducer from "./redux/reducer/orderReducer";
 import signupLoginReducer from "./redux/reducer/signupLoginReducer";
+import { UserStore } from "./context/UserContext";
 
 const loggerMiddleware = store => {
   return next => {
@@ -41,7 +42,9 @@ const store = createStore(reducers, composeEnhancers(applyMiddleware(...middlewa
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <UserStore>
+        <App />
+      </UserStore>
     </BrowserRouter>  
   </Provider>,
   document.getElementById('root')

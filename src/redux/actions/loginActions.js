@@ -29,11 +29,11 @@ export const loginUser = (email, password) => {
                 localStorage.setItem("refreshToken", refreshToken);
 
                 dispatch(loginUserSuccess(token, userId));
-                console.log("expire1");
-                console.log(expiresIn);
+                //console.log("expire1");
+                //console.log(expiresIn);
                 dispatch(autoLogoutAfterMilSeconds(expiresIn * 1000));
-                console.log("expire2");
-                console.log(expiresIn * 1000);
+                //console.log("expire2");
+                //console.log(expiresIn * 1000);
             })
             .catch(err => {
                 dispatch(loginUserError(err));
