@@ -28,6 +28,10 @@ const INGREDIENT_PRICES = { salad: 150, cheese: 250, bacon: 800, meat: 1500 };
 export const BurgerStore = props => {
     const [burger, setBurger] = useState(initialState);
 
+    const toggle = () => {
+        setBurger({ ...burger, saving: !burger.saving });
+    };
+
     const saveBurger = (newOrder, token) => {
         //Spinner эргэлдэнэ
         setBurger({ ...burger, saving: true });
@@ -77,7 +81,14 @@ export const BurgerStore = props => {
 
     return (
         <BurgerContext.Provider 
-            value={{burger, addIngredient, removeIngredient, saveBurger, clearBurger}}
+            value={{
+                burger, 
+                addIngredient, 
+                removeIngredient, 
+                saveBurger, 
+                clearBurger,
+                toggle
+            }}
         >
             {props.children}
         </BurgerContext.Provider>

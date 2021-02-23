@@ -163,7 +163,15 @@ export const UserStore = props => {
     };
 
     return (
-        <UserContext.Provider value={{ state, signupUser, loginUser, logout, loginUserSuccess }}>
+        <UserContext.Provider value={{ 
+            state, 
+            signupUser, 
+            loginUser, 
+            logout, 
+            loginUserSuccess, 
+            autoRenewTokenAfterMilSeconds 
+            }}
+        >
             {props.children}
         </UserContext.Provider>
     );

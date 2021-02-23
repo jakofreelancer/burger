@@ -61,6 +61,8 @@ const ContactData = (props) => {
         // this.setState({ loading: true });
     };
 
+    console.log("ContactData rendered...");
+
     return(
         <div className={css.ContactData}>
             <div ref={amountRef}><strong style={{fontSize: "16px"}}>Үнэ: {ctx.burger.totalPrice}</strong></div>
@@ -76,6 +78,8 @@ const ContactData = (props) => {
                     <Button text="ИЛГЭЭХ" btnType="Success" clicked={saveOrder} />
                 </div>
             )}
+
+            <Button text="Toggle" btnType="Success" clicked={ctx.toggle} />
         </div>
     );
 }
